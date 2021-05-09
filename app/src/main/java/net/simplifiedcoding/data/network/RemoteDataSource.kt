@@ -14,7 +14,7 @@ import javax.inject.Inject
 class RemoteDataSource @Inject constructor() {
 
     companion object {
-        private const val BASE_URL = "http://192.168.85.145:8000/"
+        private const val BASE_URL = "http://10.111.2.194:8000/"
     }
 
     fun <Api> buildApi(

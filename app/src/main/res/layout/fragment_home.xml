@@ -3,9 +3,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingStart="20dp"
+    android:paddingEnd="20dp"
+    android:background="@color/main_dark_blue"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.home.HomeFragment">
 
+    <com.budiyev.android.codescanner.CodeScannerView
+        android:id="@+id/scanner_view"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        app:maskColor="#77000000" />
+
     <TableLayout
+        android:visibility="invisible"
         android:id="@+id/table"
         android:layout_width="280dp"
         android:layout_height="wrap_content"
@@ -57,14 +68,16 @@
     </TableLayout>
 
     <Button
-        android:id="@+id/button_logout"
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:id="@+id/button_posh"
         style="@style/ButtonPrimary"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/table"
+        android:layout_below="@id/scanner_view"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="12dp"
-        android:text="Logout" />
+        android:layout_marginTop="200dp"
+        android:text="Посмотреть историю посещение" />
 
     <ProgressBar
         android:layout_centerInParent="true"
@@ -72,12 +85,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
     <Button
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
         android:layout_marginTop="30dp"
         android:id="@+id/button_send_qr"
         style="@style/ButtonPrimary"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_logout"
+        android:layout_below="@id/button_posh"
         android:layout_centerHorizontal="true"
-        android:text="Send QR" />
+        android:text="Статистика абонемента" />
+    <Button
+        android:layout_marginStart="30dp"
+        android:layout_marginEnd="30dp"
+        android:id="@+id/button_logout"
+        style="@style/ButtonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_send_qr"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:text="Logout" />
 </RelativeLayout>

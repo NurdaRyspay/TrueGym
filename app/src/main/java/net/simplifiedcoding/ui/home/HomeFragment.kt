@@ -7,6 +7,9 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import com.budiyev.android.codescanner.CodeScanner
+import com.budiyev.android.codescanner.CodeScannerView
+import com.budiyev.android.codescanner.DecodeCallback
 import dagger.hilt.android.AndroidEntryPoint
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.first
@@ -29,16 +32,36 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
     @Inject
     lateinit var userPreferences: UserPreferences
+    private lateinit var codeScanner: CodeScanner
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel by viewModels<HomeViewModel>()
     private lateinit var userId: String
     private lateinit var access: String
 
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
         binding.progressbar.visible(false)
+
+        val scannerView = binding.scannerView
+        val activity = requireActivity()
+        codeScanner = CodeScanner(activity, scannerView)
+        codeScanner.decodeCallback = DecodeCallback {
+            activity.runOnUiThread {
+               sendQR(it.text)
+                Toast.makeText(requireContext(), it.text, Toast.LENGTH_SHORT).show()
+            }
+        }
+        scannerView.setOnClickListener {
+            codeScanner.startPreview()
+        }
 
 
         setID()
@@ -48,7 +71,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             when (it) {
                 is Resource.Success -> {
                     lifecycleScope.launch {
-                        Toast.makeText(requireContext(), it.value.detail, Toast.LENGTH_SHORT)
+                        Toast.makeText(requireContext(), "Дабро пожаловать", Toast.LENGTH_SHORT)
                             .show()
                     }
                 }
@@ -62,18 +85,25 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
             logout()
         }
         binding.buttonSendQr.setOnClickListener {
-            sendQR()
+
         }
     }
 
-    fun sendQR(){
-        viewModel.sendQr(userId.toInt(), "1", access)
+    override fun onResume() {
+        super.onResume()
+        codeScanner.startPreview()
+    }
+
+    override fun onPause() {
+        codeScanner.releaseResources()
+        super.onPause()
+    }
+
+    fun sendQR(qrString: String){
+        viewModel.sendQr(userId.toInt(), qrString, access)
     }
 
     fun setUi() = lifecycleScope.launch {
-        with(binding){
-            textViewId.text = userId
-        }
     }
 
     fun setID() = lifecycleScope.launch {
@@ -82,8 +112,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     private fun updateUI(userid: String) {
-        with(binding) {
-            textViewId.text = userid
-        }
+
     }
 }
