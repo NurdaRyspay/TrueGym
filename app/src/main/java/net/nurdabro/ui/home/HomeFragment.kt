@@ -3,10 +3,13 @@ package net.nurdabro.ui.home
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
+import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import dagger.hilt.android.AndroidEntryPoint
@@ -48,7 +51,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         codeScanner = CodeScanner(activity, scannerView)
         codeScanner.decodeCallback = DecodeCallback {
             activity.runOnUiThread {
-               sendQR(it.text)
+                sendQR(it.text)
                 Toast.makeText(requireContext(), it.text, Toast.LENGTH_SHORT).show()
             }
         }
@@ -68,7 +71,11 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
                             .show()
                     }
                 }
-                is Resource.Failure -> Toast.makeText(requireContext(), "Oh no Error", Toast.LENGTH_SHORT).show()
+                is Resource.Failure -> Toast.makeText(
+                    requireContext(),
+                    "Oh no Error",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         })
 
@@ -77,8 +84,12 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         binding.buttonLogout.setOnClickListener {
             logout()
         }
-        binding.buttonSendQr.setOnClickListener {
+        binding.buttonHistory.setOnClickListener {
 
+        }
+        binding.buttonChangePassword.setOnClickListener {
+            val bundle = bundleOf("access" to access)
+            view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment, bundle)
         }
     }
 
@@ -92,7 +103,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         super.onPause()
     }
 
-    fun sendQR(qrString: String){
+    fun sendQR(qrString: String) {
         viewModel.sendQr(userId.toInt(), qrString, access)
     }
 

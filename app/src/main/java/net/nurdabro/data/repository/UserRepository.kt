@@ -18,4 +18,14 @@ class UserRepository @Inject constructor(
         api.sendQr(UserApi.SendQrRequest(user_id, qr_string), "Bearer "+access)
     }
 
+
+    suspend fun changePassword(
+        password: String,
+        password2: String,
+        old_password: String,
+        access: String
+    ) = safeApiCall {
+        api.changePassword(UserApi.ChangePasswordReques(password, password2, old_password),"Bearer "+access )
+    }
+
 }

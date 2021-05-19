@@ -25,6 +25,9 @@ class HomeViewModel @Inject constructor(
     val detail: LiveData<Resource<UserApi.SendQrResponse>>
         get() = _detail
 
+    private val _changed: MutableLiveData<Resource<UserApi.ChangePasswordResponse>> = MutableLiveData()
+    val changed: LiveData<Resource<UserApi.ChangePasswordResponse>>
+        get() = _changed
 
     fun getUser() = viewModelScope.launch {
         _user.value = Resource.Loading
@@ -38,6 +41,16 @@ class HomeViewModel @Inject constructor(
     ) = viewModelScope.launch {
         _detail.value = Resource.Loading
         _detail.value = repository.senQr(user_id, qr_string,access)
+    }
+
+    fun changePassword(
+        password: String,
+        password2: String,
+        old_password: String,
+        access: String
+    ) = viewModelScope.launch {
+        _changed.value = Resource.Loading
+        _changed.value = repository.changePassword(password, password2, old_password, access)
     }
 
 

@@ -9,10 +9,10 @@ import net.nurdabro.R
 
 class RegisterFragment : Fragment() {
 
-    override fun onCreateView(
+/*    override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_register, container, false)
-    }
+    }*/
 }
