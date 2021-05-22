@@ -1,7 +1,6 @@
 package net.nurdabro.data.network
 
 import net.nurdabro.data.responses.LoginResponse
-import okhttp3.ResponseBody
 import retrofit2.http.*
 
 interface UserApi : BaseApi{
@@ -15,10 +14,11 @@ interface UserApi : BaseApi{
         @Header("Authorization") authHeader: String
     ): SendQrResponse
 
-    @PUT("api/change_password/4/")
+    @PUT("api/change_password/{id}/")
     suspend fun changePassword(
         @Body request: ChangePasswordReques,
-        @Header("Authorization") authHeader: String
+        @Header("Authorization") authHeader: String,
+        @Path("{id}") id: Int
     ): ChangePasswordResponse
 
     data class ChangePasswordReques(

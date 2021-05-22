@@ -3,7 +3,6 @@ package net.nurdabro.ui.home
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -28,10 +27,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
     private lateinit var binding: FragmentSettingsBinding
     private val viewModel by viewModels<HomeViewModel>()
     private lateinit var access: String
+    private var userId: Int? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         access = requireArguments().getString("access")!!
+        userId = requireArguments().getInt("id")
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -45,13 +47,13 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
             binding.progressBarContainer.visible(it is Resource.Loading)
             when (it) {
                 is Resource.Success -> {
+                    requireActivity().onBackPressed()
                     lifecycleScope.launch {
-                        Toast.makeText(requireContext(), "${it.value.changed}", Toast.LENGTH_SHORT).show()
+                        SuccessDialog().show(parentFragmentManager, "")
                     }
                 }
                 is Resource.Failure -> {
                     handleApiError(it) { changePassword() }
-                    requireActivity().onBackPressed()
                 }
             }
         })
@@ -62,7 +64,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val password2 = binding.etRepetNewPassword.text.toString().trim()
         val old_password = binding.etOldPassword.text.toString().trim()
         Log.i(TAG, "changePassword: ${password}   ${password2}   ${old_password}")
-        viewModel.changePassword(password, password2, old_password, access)
+        viewModel.changePassword(password, password2, old_password, access, userId!!)
     }
 
 

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Login Sample</string>
+    <string name="app_name">True GYM</string>
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="don_t_have_an_account_register_now">Don\'t have an account? <b>Register Now</b></string>
     <string name="email">email</string>

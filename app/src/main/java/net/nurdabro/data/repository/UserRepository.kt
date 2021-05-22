@@ -23,9 +23,10 @@ class UserRepository @Inject constructor(
         password: String,
         password2: String,
         old_password: String,
-        access: String
+        access: String,
+        userId: Int
     ) = safeApiCall {
-        api.changePassword(UserApi.ChangePasswordReques(password, password2, old_password),"Bearer "+access )
+        api.changePassword(UserApi.ChangePasswordReques(password, password2, old_password),"Bearer "+access, userId )
     }
 
 }

@@ -47,10 +47,12 @@ class HomeViewModel @Inject constructor(
         password: String,
         password2: String,
         old_password: String,
-        access: String
+        access: String,
+        userId: Int
     ) = viewModelScope.launch {
+
         _changed.value = Resource.Loading
-        _changed.value = repository.changePassword(password, password2, old_password, access)
+        _changed.value = repository.changePassword(password, password2, old_password, access, userId)
     }
 
 

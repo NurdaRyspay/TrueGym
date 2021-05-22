@@ -7,12 +7,13 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 class RemoteDataSource @Inject constructor() {
 
     companion object {
-        private const val BASE_URL = "http://192.168.130.145:8000/"
+        private const val BASE_URL = "http://172.20.10.2:8000/"
     }
 
     fun <Api> buildApi(
@@ -50,7 +51,9 @@ class RemoteDataSource @Inject constructor() {
                     logging.setLevel(HttpLoggingInterceptor.Level.BODY)
                     client.addInterceptor(logging)
                 }
-            }.build()
+            }
+            .readTimeout(120, TimeUnit.SECONDS)
+            .build()
     }
 
 }

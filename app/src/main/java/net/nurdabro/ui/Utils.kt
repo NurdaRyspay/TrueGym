@@ -61,7 +61,11 @@ fun Fragment.handleApiError(
         }
         else -> {
             val error = failure.errorBody?.string().toString()
-            requireView().snackbar(error)
+            if (error.contains("changed")) {
+                requireView().snackbar("Пароль был изменен")
+            } else {
+                requireView().snackbar(error)
+            }
         }
     }
 }

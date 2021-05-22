@@ -1,109 +1,111 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingStart="20dp"
-    android:paddingEnd="20dp"
-    android:background="@color/main_dark_blue"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/ic_bg_2"
     tools:context=".ui.home.HomeFragment">
 
-    <com.budiyev.android.codescanner.CodeScannerView
-        android:id="@+id/scanner_view"
-        android:layout_width="match_parent"
-        android:layout_height="220dp"
-        app:maskColor="#77000000" />
-
-    <TableLayout
-        android:visibility="invisible"
-        android:id="@+id/table"
-        android:layout_width="280dp"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:padding="12dp"
-        android:stretchColumns="*">
-
-        <TableRow>
-
-            <TextView
-                style="@style/TextDefault"
-                android:text="ID" />
-
-            <TextView
-                android:id="@+id/text_view_id"
-                style="@style/TextDefault"
-                tools:text="1" />
-
-        </TableRow>
-
-        <TableRow
-            android:visibility="gone">
-
-            <TextView
-                style="@style/TextDefault"
-                android:text="Name" />
-
-            <TextView
-                android:id="@+id/text_view_name"
-                style="@style/TextDefault"
-                tools:text="Belal Khan" />
-
-        </TableRow>
-
-        <TableRow
-            android:visibility="gone">
-
-            <TextView
-                style="@style/TextDefault"
-                android:text="Email" />
-
-            <TextView
-                android:id="@+id/text_view_Email"
-                style="@style/TextDefault"
-                tools:text="probelalkhan@gmail.com" />
-
-        </TableRow>
-
-    </TableLayout>
-
-    <Button
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:id="@+id/button_posh"
-        style="@style/ButtonPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/scanner_view"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="200dp"
-        android:text="Посмотреть историю посещение" />
-
-    <ProgressBar
-        android:layout_centerInParent="true"
-        android:id="@+id/progressbar"
+    <TextView
+        android:id="@+id/textView1"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_marginTop="37dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Профиль"
+        android:textColor="@color/white"
+        android:textSize="22sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:fontFamily="sans-serif-medium"
+        android:text="Просканируйте QR код"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView1" />
+
+    <LinearLayout
+        style="@style/ButtonPrimary"
+        android:id="@+id/scanner_container"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/textView2">
+
+        <com.budiyev.android.codescanner.CodeScannerView
+            android:id="@+id/scanner_view"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            app:autoFocusButtonVisible="false"
+            app:flashButtonVisible="false"
+            app:frameSize="1"
+            android:layout_margin="15dp"
+            app:maskColor="#00000000" />
+    </LinearLayout>
+
     <Button
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
-        android:layout_marginTop="30dp"
-        android:id="@+id/button_send_qr"
+        android:id="@+id/button_history"
         style="@style/ButtonPrimary"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/button_posh"
-        android:layout_centerHorizontal="true"
-        android:text="Статистика абонемента" />
-    <Button
         android:layout_marginStart="30dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="30dp"
+        android:padding="10dp"
+        android:text="История посещения"
+        android:drawableLeft="@drawable/ic_button_icon"
+        app:layout_constraintTop_toBottomOf="@id/scanner_container" />
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/progress_bar_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#73626161"
+        android:clickable="false"
+        android:elevation="5dp"
+        android:gravity="center"
+        tools:visibility="visible"
+        android:visibility="gone">
+
+        <ProgressBar
+            android:id="@+id/progress_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <Button
+        android:id="@+id/button_change_password"
+        style="@style/ButtonPrimary"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/button_history"
+        android:layout_centerHorizontal="true"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="30dp"
+        android:drawableStart="@drawable/ic_button_icon"
+        android:padding="10dp"
+        android:text="Изменить пароль"
+        app:layout_constraintTop_toBottomOf="@id/button_history" />
+
+    <ImageView
+        android:layout_margin="20dp"
         android:id="@+id/button_logout"
-        style="@style/ButtonPrimary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/button_send_qr"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="30dp"
-        android:text="Logout" />
-</RelativeLayout>
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:src="@drawable/log_out_btn"
+        app:layout_constraintBottom_toBottomOf="@id/textView1"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/textView1" />
+</androidx.constraintlayout.widget.ConstraintLayout>

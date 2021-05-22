@@ -15,6 +15,7 @@ import net.nurdabro.databinding.FragmentLoginBinding
 import net.nurdabro.ui.enable
 import net.nurdabro.ui.handleApiError
 import net.nurdabro.ui.home.HomeActivity
+import net.nurdabro.ui.home.SuccessDialog
 import net.nurdabro.ui.startNewActivity
 import net.nurdabro.ui.visible
 
@@ -28,11 +29,11 @@ class LoginFragment: Fragment(R.layout.fragment_login) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
         binding = FragmentLoginBinding.bind(view)
-        binding.progressbar.visible(false)
+        binding.progressBarContainer.visible(false)
         binding.buttonLogin.enable(false)
 
         viewModel.loginResponse.observe(viewLifecycleOwner, Observer {
-            binding.progressbar.visible(it is Resource.Loading)
+            binding.progressBarContainer.visible(it is Resource.Loading)
             when (it) {
                 is Resource.Success -> {
                     lifecycleScope.launch {

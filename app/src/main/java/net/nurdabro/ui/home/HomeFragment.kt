@@ -19,6 +19,7 @@ import net.nurdabro.R
 import net.nurdabro.data.UserPreferences
 import net.nurdabro.data.network.Resource
 import net.nurdabro.databinding.FragmentHomeBinding
+import net.nurdabro.ui.handleApiError
 import net.nurdabro.ui.logout
 import net.nurdabro.ui.visible
 import javax.inject.Inject
@@ -44,7 +45,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentHomeBinding.bind(view)
-        binding.progressbar.visible(false)
+        binding.progressBarContainer.visible(false)
 
         val scannerView = binding.scannerView
         val activity = requireActivity()
@@ -52,7 +53,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         codeScanner.decodeCallback = DecodeCallback {
             activity.runOnUiThread {
                 sendQR(it.text)
-                Toast.makeText(requireContext(), it.text, Toast.LENGTH_SHORT).show()
             }
         }
         scannerView.setOnClickListener {
@@ -63,19 +63,14 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         setID()
         setUi()
         viewModel.detail.observe(viewLifecycleOwner, Observer {
-            binding.progressbar.visible(it is Resource.Loading)
+            binding.progressBarContainer.visible(it is Resource.Loading)
             when (it) {
                 is Resource.Success -> {
+                    SuccessDialog().show(parentFragmentManager,"")
                     lifecycleScope.launch {
-                        Toast.makeText(requireContext(), "Дабро пожаловать", Toast.LENGTH_SHORT)
-                            .show()
                     }
                 }
-                is Resource.Failure -> Toast.makeText(
-                    requireContext(),
-                    "Oh no Error",
-                    Toast.LENGTH_SHORT
-                ).show()
+                is Resource.Failure ->  handleApiError(it)
             }
         })
 
@@ -88,7 +83,7 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
 
         }
         binding.buttonChangePassword.setOnClickListener {
-            val bundle = bundleOf("access" to access)
+            val bundle = bundleOf("access" to access, "id" to userId.toInt())
             view.findNavController().navigate(R.id.action_homeFragment_to_settingsFragment, bundle)
         }
     }
