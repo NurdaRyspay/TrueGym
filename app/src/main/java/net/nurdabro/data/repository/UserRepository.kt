@@ -15,7 +15,7 @@ class UserRepository @Inject constructor(
         qr_string: String,
         access: String
     ) = safeApiCall {
-        api.sendQr(UserApi.SendQrRequest(user_id, qr_string), "Bearer "+access)
+        api.sendQr(SendQrRequest(user_id, qr_string), "Bearer " + access)
     }
 
 
@@ -26,7 +26,11 @@ class UserRepository @Inject constructor(
         access: String,
         userId: Int
     ) = safeApiCall {
-        api.changePassword(UserApi.ChangePasswordReques(password, password2, old_password),"Bearer "+access, userId )
+        api.changePassword(
+            ChangePasswordReques(password, password2, old_password),
+            "Bearer " + access,
+            userId
+        )
     }
 
 }

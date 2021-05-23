@@ -1,4 +1,4 @@
-package net.nurdabro.ui.home
+package net.nurdabro.utils
 
 import android.os.Bundle
 import android.view.LayoutInflater

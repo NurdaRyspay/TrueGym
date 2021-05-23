@@ -1,5 +1,9 @@
 package net.nurdabro.data.network
 
+import net.nurdabro.data.repository.ChangePasswordReques
+import net.nurdabro.data.repository.ChangePasswordResponse
+import net.nurdabro.data.repository.SendQrRequest
+import net.nurdabro.data.repository.SendQrResponse
 import net.nurdabro.data.responses.LoginResponse
 import retrofit2.http.*
 
@@ -21,22 +25,4 @@ interface UserApi : BaseApi{
         @Path("{id}") id: Int
     ): ChangePasswordResponse
 
-    data class ChangePasswordReques(
-        val password: String,
-        val password2: String,
-        val old_password: String
-    )
-
-    data class ChangePasswordResponse(
-        val changed: Boolean
-    )
-
-    data class SendQrRequest(
-        val user_id: Int,
-        val qr_string: String
-    )
-
-    data class SendQrResponse(
-        val detail: String
-    )
 }

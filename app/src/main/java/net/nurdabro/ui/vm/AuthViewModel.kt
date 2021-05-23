@@ -1,4 +1,4 @@
-package net.nurdabro.ui.auth
+package net.nurdabro.ui.vm
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -33,7 +33,7 @@ class AuthViewModel @Inject constructor(
         repository.saveRefreshToken(refreshToken)
     }
 
-    suspend fun saveUserId(userId: String){
+    suspend fun saveUserId(userId: String) {
         repository.saveId(userId)
     }
 }

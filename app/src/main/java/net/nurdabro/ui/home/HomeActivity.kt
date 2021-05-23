@@ -10,6 +10,7 @@ import net.nurdabro.R
 import net.nurdabro.data.UserPreferences
 import net.nurdabro.ui.auth.AuthActivity
 import net.nurdabro.ui.startNewActivity
+import net.nurdabro.ui.vm.HomeViewModel
 import javax.inject.Inject
 
 @AndroidEntryPoint

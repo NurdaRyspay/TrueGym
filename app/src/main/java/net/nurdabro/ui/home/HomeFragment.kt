@@ -2,45 +2,34 @@ package net.nurdabro.ui.home
 
 import android.os.Bundle
 import android.view.View
-import android.widget.Toast
 import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
 import com.budiyev.android.codescanner.CodeScanner
 import com.budiyev.android.codescanner.DecodeCallback
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import net.nurdabro.R
-import net.nurdabro.data.UserPreferences
 import net.nurdabro.data.network.Resource
 import net.nurdabro.databinding.FragmentHomeBinding
 import net.nurdabro.ui.handleApiError
 import net.nurdabro.ui.logout
+import net.nurdabro.ui.vm.HomeViewModel
 import net.nurdabro.ui.visible
-import javax.inject.Inject
+import net.nurdabro.utils.SuccessDialog
 
 @AndroidEntryPoint
 class HomeFragment : Fragment(R.layout.fragment_home) {
 
-    @Inject
-    lateinit var userPreferences: UserPreferences
     private lateinit var codeScanner: CodeScanner
 
     private lateinit var binding: FragmentHomeBinding
     private val viewModel by viewModels<HomeViewModel>()
     private lateinit var userId: String
     private lateinit var access: String
-
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -60,17 +49,15 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
         }
 
 
-        setID()
-        setUi()
-        viewModel.detail.observe(viewLifecycleOwner, Observer {
+        viewModel.detail.observe(viewLifecycleOwner, {
             binding.progressBarContainer.visible(it is Resource.Loading)
             when (it) {
                 is Resource.Success -> {
-                    SuccessDialog().show(parentFragmentManager,"")
+                    SuccessDialog().show(parentFragmentManager, "")
                     lifecycleScope.launch {
                     }
                 }
-                is Resource.Failure ->  handleApiError(it)
+                is Resource.Failure -> handleApiError(it)
             }
         })
 
@@ -99,18 +86,6 @@ class HomeFragment : Fragment(R.layout.fragment_home) {
     }
 
     fun sendQR(qrString: String) {
-        viewModel.sendQr(userId.toInt(), qrString, access)
-    }
-
-    fun setUi() = lifecycleScope.launch {
-    }
-
-    fun setID() = lifecycleScope.launch {
-        userId = userPreferences.userId.first()!!
-        access = userPreferences.accessToken.first()!!
-    }
-
-    private fun updateUI(userid: String) {
-
+        viewModel.sendQr(qrString)
     }
 }

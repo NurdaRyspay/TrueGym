@@ -2,7 +2,6 @@ package net.nurdabro.data.repository
 
 import net.nurdabro.data.UserPreferences
 import net.nurdabro.data.network.AuthApi
-import net.nurdabro.data.network.LoginRequest
 import javax.inject.Inject
 
 class AuthRepository @Inject constructor(

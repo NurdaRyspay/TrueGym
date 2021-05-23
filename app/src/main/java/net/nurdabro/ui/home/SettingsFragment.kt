@@ -14,7 +14,9 @@ import net.nurdabro.data.UserPreferences
 import net.nurdabro.data.network.Resource
 import net.nurdabro.databinding.FragmentSettingsBinding
 import net.nurdabro.ui.handleApiError
+import net.nurdabro.ui.vm.HomeViewModel
 import net.nurdabro.ui.visible
+import net.nurdabro.utils.SuccessDialog
 import javax.inject.Inject
 
 private const val TAG = "SettingsFragment"
@@ -43,7 +45,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding.buttonChangePassword.setOnClickListener {
             changePassword()
         }
-        viewModel.changed.observe(viewLifecycleOwner, Observer {
+        viewModel.changed.observe(viewLifecycleOwner, {
             binding.progressBarContainer.visible(it is Resource.Loading)
             when (it) {
                 is Resource.Success -> {
@@ -64,7 +66,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         val password2 = binding.etRepetNewPassword.text.toString().trim()
         val old_password = binding.etOldPassword.text.toString().trim()
         Log.i(TAG, "changePassword: ${password}   ${password2}   ${old_password}")
-        viewModel.changePassword(password, password2, old_password, access, userId!!)
+        viewModel.changePassword(password, password2, old_password)
     }
 
 
